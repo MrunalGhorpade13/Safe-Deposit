@@ -1,0 +1,21 @@
+# Rust
+/safe_deposit/target/
+/safe_deposit/Cargo.lock
+
+# Node
+/frontend/node_modules/
+/frontend/.next/
+/frontend/out/
+/frontend/build/
+/frontend/.env*
+/frontend/npm-debug.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Misc
+*.log
+/tmp/
+build.log
+test_output.txt
