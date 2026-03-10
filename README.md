@@ -7,19 +7,22 @@ This project was built as part of the **Rise In Stellar Journey to Mastery - Lev
 ---
 
 ## 🔗 Project Links
-> **Note to Assessor**: Live Demo and Video links will be filled in before submission.
+## 🔗 Project Links
 
-* **Live Demo Link:** `[Insert Vercel/Netlify URL Here]`
+* **Live Demo Link:** [https://frontend-o68avbd2t-mrunalghorpade13s-projects.vercel.app](https://frontend-o68avbd2t-mrunalghorpade13s-projects.vercel.app)
 * **1-Minute Demo Video Link:** `[Insert Loom/YouTube URL Here]`
+
+### 🖥️ Frontend Preview
+![SafeDeposit Dashboard](./screenshots/dashboard_connected.png)
+![SafeDeposit Interaction](./screenshots/dashboard_hover_interaction.png)
 
 ### ✅ Deployed Smart Contract
 * **Network:** Stellar Testnet
 * **Contract ID:** `CAZTP6HMOFZJBJC26DQRDCSMM43ZQ325YKVHCKW4PPR744C4WKJZ2D7L`
 * **Deployer Address:** `GBZVEKLWICAUDTSOIMXZRA7XAMBXA4NMX3REYJIMQPY6762O`
 
-### Test Verification
-> **Screenshot of Passing Tests:**
-> `[Paste Screenshot of cargo test output here]`
+### ✅ Test Verification — 4 Tests Passed
+![cargo test 4 passed](./screenshots/cargo_test_passed.png)
 
 ---
 
@@ -64,6 +67,7 @@ stellar contract build
 stellar keys generate deployer --network testnet --fund
 stellar contract deploy --wasm target/wasm32v1-none/release/safe_deposit.wasm --source deployer --network testnet
 ```
+
 
 ### 2. Frontend Application
 To run the Next.js React frontend:
