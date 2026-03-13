@@ -13,7 +13,6 @@ This project was built as part of the **Rise In Stellar Journey to Mastery - Lev
 
 ### 🖥️ Frontend Preview
 ![SafeDeposit Dashboard](./screenshots/dashboard_connected.png)
-![SafeDeposit Interaction](./screenshots/dashboard_hover_interaction.png)
 
 ### ✅ Deployed Smart Contract
 * **Network:** Stellar Testnet
@@ -110,3 +109,15 @@ The Tenant logs back in and sees the proposed deduction.
 * `lock_deposit`: Locks the XLM from the tenant and initiates the `Locked` state.
 * `propose_deduction`: Allows the authorized landlord to propose damage costs. Moves to `PendingApproval`.
 * `approve_and_release`: Tenant approves. Contract completes the deal. Moves state to `Released`.
+
+---
+
+## ✍️ Author
+
+**Developed by Mrunal Ghorpade**
+*Rise In Stellar Journey to Mastery - Level 3 Submission*
+
+---
+
+![Stellar Logo](https://upload.wikimedia.org/wikipedia/commons/4/4c/Stellar_logo.png)
+🚀 *Building the future of finance on Stellar.*
