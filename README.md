@@ -7,10 +7,9 @@ This project was built as part of the **Rise In Stellar Journey to Mastery - Lev
 ---
 
 ## 🔗 Project Links
-## 🔗 Project Links
 
 * **Live Demo Link:** [https://frontend-o68avbd2t-mrunalghorpade13s-projects.vercel.app](https://frontend-o68avbd2t-mrunalghorpade13s-projects.vercel.app)
-* **1-Minute Demo Video Link:** `[Insert Loom/YouTube URL Here]`
+* **Full Process Demo Video:** [Google Drive Link](https://drive.google.com/file/d/1JbJvYUtTJDJz5UIifuqXdTqxS8j_JLNJ/view?usp=sharing)
 
 ### 🖥️ Frontend Preview
 ![SafeDeposit Dashboard](./screenshots/dashboard_connected.png)
