@@ -119,5 +119,4 @@ The Tenant logs back in and sees the proposed deduction.
 
 ---
 
-![Stellar Logo](https://upload.wikimedia.org/wikipedia/commons/4/4c/Stellar_logo.png)
 🚀 *Building the future of finance on Stellar.*
