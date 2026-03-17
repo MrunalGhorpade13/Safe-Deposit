@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { nativeToScVal } from "@stellar/stellar-sdk";
 import { invokeContractFunction, addressVal, xlmToStroops } from "@/lib/stellar";
 import { useWallet } from "@/context/WalletContext";
+import { TOKEN_ID, FEE_COLLECTOR_ID } from "@/lib/constants";
 
 export function useLockDeposit() {
     const { address } = useWallet();
@@ -18,7 +19,9 @@ export function useLockDeposit() {
             const args = [
                 addressVal(tenant),
                 addressVal(landlord),
-                nativeToScVal(xlmToStroops(amount), { type: "i128" })
+                nativeToScVal(xlmToStroops(amount), { type: "i128" }),
+                addressVal(TOKEN_ID),
+                addressVal(FEE_COLLECTOR_ID)
             ];
 
             const txHash = await invokeContractFunction(address, "lock_deposit", args);
