@@ -21,7 +21,7 @@ This project was built as part of the **Rise In Stellar Journey to Mastery - Lev
 
 ### ✅ Deployed Smart Contracts
 * **Network:** Stellar Testnet
-* **Main Contract ID:** `CAZTP... (Update after new deployment)`
+* **Main Contract ID:** `CDFOXFNJZE7Y5TCEC5DTHPZX6OBN64AZRHEXTZJMSQG76ENU5JPUJEKO`
 * **FeeCollector Contract ID:** `CDXAB... (Update after new deployment)`
 * **Inter-contract Call Tx Hash:** `fd9a... (Update after new deployment)`
 * **Deployer Address:** `GBZVEKLWICAUDTSOIMXZRA7XAMBXA4NMX3REYJIMQPY6762O`
