@@ -39,7 +39,8 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     };
 
     useEffect(() => {
-        checkConnection();
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        void checkConnection();
     }, []);
 
     const connect = async () => {

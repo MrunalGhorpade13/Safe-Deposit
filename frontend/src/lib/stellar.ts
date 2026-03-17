@@ -2,11 +2,9 @@ import {
     rpc,
     xdr,
     Address,
-    nativeToScVal,
     scValToNative,
     Contract,
     TransactionBuilder,
-    Networks,
     BASE_FEE,
     Account,
 } from "@stellar/stellar-sdk";

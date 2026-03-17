@@ -39,7 +39,7 @@ export function useProposeDeduction() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async ({ tenant, amount }: { tenant: string, amount: number }) => {
+        mutationFn: async ({ amount }: { tenant: string, amount: number }) => {
             if (!address) throw new Error("Wallet not connected");
             toast.info("Please sign the transaction in Freighter...", { autoClose: 3000 });
 

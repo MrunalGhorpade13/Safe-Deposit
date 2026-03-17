@@ -16,9 +16,7 @@ export function useContractEvents(address: string | null) {
             while (isPolling) {
                 try {
                     // We only check for new events if we know what ledger to start from.
-                    // For a robust implementation we might track the last seen cursor
-                    // or query from recent history. Here we poll getEvents.
-                    // and use 'startLedger' or 'cursor' but not both.
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     const requestConfig: any = {
                         filters: [
                             {
@@ -36,14 +34,13 @@ export function useContractEvents(address: string | null) {
 
                     const eventsResponse = await server.getEvents(requestConfig);
 
-                    // The generic response type might lack 'records' property typing depending on the SDK version,
                     // so we safely typecast the response.
-                    const response = eventsResponse as any;
+                    const response = eventsResponse as { records?: Array<{ topic: string[], ledger: string }> };
 
                     if (response.records && response.records.length > 0) {
-                        const newEvents = response.records.filter((record: any) => {
+                        const newEvents = response.records.filter((record: { topic: string[], ledger: string }) => {
                             // Check if the event topics match our known events
-                            const topicStr = record.topic.map((t: any) => t.toString()).join(",");
+                            const topicStr = record.topic.map((t: { toString: () => string }) => t.toString()).join(",");
                             return (
                                 topicStr.includes("DepositLocked") ||
                                 topicStr.includes("DeductionProposed") ||
@@ -61,7 +58,7 @@ export function useContractEvents(address: string | null) {
                             lastLedger = parseInt(response.records[response.records.length - 1].ledger, 10) + 1;
                         }
                     }
-                } catch (error) {
+                } catch {
                     // Silently fail polling to prevent console spam on network blips
                 }
 
