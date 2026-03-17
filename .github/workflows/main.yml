@@ -20,26 +20,32 @@ jobs:
         with:
           targets: wasm32-unknown-unknown
 
-      - name: Run Cargo Test
+      - name: Install Stellar CLI (latest)
+        run: |
+          curl -sSL https://github.com/stellar/stellar-cli/releases/download/v25.1.0/stellar-cli-25.1.0-x86_64-unknown-linux-gnu.tar.gz | tar xz
+          sudo mv stellar /usr/local/bin/stellar
+          stellar --version
+
+      - name: Run Cargo Tests
         working-directory: ./safe_deposit
         run: cargo test --features testutils
 
-      - name: Build WASM Contract
+      - name: Build & Optimize WASM Contract
         working-directory: ./safe_deposit
-        run: cargo build --target wasm32-unknown-unknown --release
+        run: stellar contract build
 
-      - name: Install Stellar CLI & Deploy to Testnet
+      - name: Deploy Contract to Testnet
         working-directory: ./safe_deposit
         run: |
-          curl -sSL https://github.com/stellar/stellar-cli/releases/download/v22.7.0/stellar-cli-22.7.0-x86_64-unknown-linux-gnu.tar.gz | tar xz
-          ./stellar keys generate deployer --network testnet --fund
-          echo "Optimizing WASM binary..."
-          ./stellar contract optimize --wasm target/wasm32-unknown-unknown/release/safe_deposit.wasm
+          stellar keys generate deployer --network testnet --fund
           echo "================================================="
           echo "DEPLOYING SAFEDEPOSIT CONTRACT TO TESTNET..."
-          CONTRACT_ID=$(./stellar contract deploy --wasm target/wasm32-unknown-unknown/release/safe_deposit.optimized.wasm -s deployer --network testnet)
+          CONTRACT_ID=$(stellar contract deploy \
+            --wasm target/wasm32-unknown-unknown/release/safe_deposit.wasm \
+            -s deployer \
+            --network testnet)
           echo "================================================="
-          echo "🎉 LEVEL 4 - YOUR NEW CONTRACT ID IS:"
+          echo "🎉 LEVEL 4 - YOUR NEW SAFEDEPOSIT CONTRACT ID IS:"
           echo "$CONTRACT_ID"
           echo "================================================="
         continue-on-error: true
