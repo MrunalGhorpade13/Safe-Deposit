@@ -8,7 +8,7 @@ on:
 
 jobs:
   test-contracts:
-    name: Build & Test Soroban Contracts
+    name: Build, Test & Deploy Soroban Contracts
     runs-on: ubuntu-latest
     
     steps:
@@ -27,6 +27,25 @@ jobs:
       - name: Build WASM Contract
         working-directory: ./safe_deposit
         run: cargo build --target wasm32-unknown-unknown --release
+
+      - name: Setup Stellar CLI
+        uses: stellar/actions/setup-cli@main
+        with:
+          version: latest
+
+      - name: Deploy Contract to Testnet
+        working-directory: ./safe_deposit
+        run: |
+          stellar keys generate deployer --network testnet --fund
+          echo "================================================="
+          echo "DEPLOYING SAFEDEPOSIT CONTRACT TO TESTNET..."
+          CONTRACT_ID=$(stellar contract deploy --wasm target/wasm32-unknown-unknown/release/safe_deposit.wasm -s deployer --network testnet)
+          echo "================================================="
+          echo "🎉 SUCCESS! CONGRATULATIONS ON COMPLETING LEVEL 4"
+          echo "YOUR NEW CONTRACT ID IS:"
+          echo "$CONTRACT_ID"
+          echo "================================================="
+          echo "Copy the Contract ID above into your frontend/.env"
 
   build-frontend:
     name: Build Next.js Frontend
