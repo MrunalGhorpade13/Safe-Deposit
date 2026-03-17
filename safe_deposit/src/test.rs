@@ -11,10 +11,13 @@ fn test_lock_deposit() {
     let contract_id = env.register(SafeDepositContract, ());
     let client = SafeDepositContractClient::new(&env, &contract_id);
     
+    let fee_collector_id = env.register(fee_collector::FeeCollectorContract, ());
+    let token = Address::generate(&env);
+
     let tenant = Address::generate(&env);
     let landlord = Address::generate(&env);
     
-    client.lock_deposit(&tenant, &landlord, &1000);
+    client.lock_deposit(&tenant, &landlord, &1000, &token, &fee_collector_id);
     
     let state = client.get_state();
     assert_eq!(state, State::Locked);
@@ -34,10 +37,13 @@ fn test_propose_deduction() {
     let contract_id = env.register(SafeDepositContract, ());
     let client = SafeDepositContractClient::new(&env, &contract_id);
     
+    let fee_collector_id = env.register(fee_collector::FeeCollectorContract, ());
+    let token = Address::generate(&env);
+
     let tenant = Address::generate(&env);
     let landlord = Address::generate(&env);
     
-    client.lock_deposit(&tenant, &landlord, &1000);
+    client.lock_deposit(&tenant, &landlord, &1000, &token, &fee_collector_id);
     client.propose_deduction(&landlord, &200);
     
     let state = client.get_state();
@@ -55,10 +61,13 @@ fn test_approve_and_release() {
     let contract_id = env.register(SafeDepositContract, ());
     let client = SafeDepositContractClient::new(&env, &contract_id);
     
+    let fee_collector_id = env.register(fee_collector::FeeCollectorContract, ());
+    let token = Address::generate(&env);
+
     let tenant = Address::generate(&env);
     let landlord = Address::generate(&env);
     
-    client.lock_deposit(&tenant, &landlord, &1000);
+    client.lock_deposit(&tenant, &landlord, &1000, &token, &fee_collector_id);
     client.propose_deduction(&landlord, &200);
     client.approve_and_release(&tenant);
     
@@ -75,10 +84,13 @@ fn test_invalid_deduction_amount() {
     let contract_id = env.register(SafeDepositContract, ());
     let client = SafeDepositContractClient::new(&env, &contract_id);
     
+    let fee_collector_id = env.register(fee_collector::FeeCollectorContract, ());
+    let token = Address::generate(&env);
+
     let tenant = Address::generate(&env);
     let landlord = Address::generate(&env);
     
-    client.lock_deposit(&tenant, &landlord, &1000);
+    client.lock_deposit(&tenant, &landlord, &1000, &token, &fee_collector_id);
     // Should panic because 1500 > 1000
     client.propose_deduction(&landlord, &1500);
 }

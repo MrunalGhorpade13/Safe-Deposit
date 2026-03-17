@@ -1,6 +1,9 @@
 #![no_std]
 use soroban_sdk::{contract, contractimpl, contracttype, Address, Env};
 
+mod fee_collector;
+use fee_collector::{FeeCollectorContractClient};
+
 #[contracttype]
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum State {
@@ -24,7 +27,7 @@ pub struct SafeDepositContract;
 #[contractimpl]
 impl SafeDepositContract {
     /// Tenant locks XLM and assigns a Landlord. State becomes Locked.
-    pub fn lock_deposit(env: Env, tenant: Address, landlord: Address, amount: i128) {
+    pub fn lock_deposit(env: Env, tenant: Address, landlord: Address, amount: i128, token: Address, fee_collector: Address) {
         tenant.require_auth();
 
         if env.storage().instance().has(&DataKey::State) {
@@ -40,10 +43,20 @@ impl SafeDepositContract {
         // For simplicity in this demo, we assume the transfer happens
         // or we just track the balances. We'll just track the state.
 
+        // Call FeeCollector inter-contract call
+        let fee_client = FeeCollectorContractClient::new(&env, &fee_collector);
+        let fee_amount: i128 = 10000000; // 1 XLM flat fee
+        fee_client.collect_fee(&token, &tenant, &fee_amount);
+
         env.storage().instance().set(&DataKey::Tenant, &tenant);
         env.storage().instance().set(&DataKey::Landlord, &landlord);
         env.storage().instance().set(&DataKey::DepositAmount, &amount);
         env.storage().instance().set(&DataKey::State, &State::Locked);
+
+        env.events().publish(
+            (soroban_sdk::Symbol::new(&env, "DepositLocked"), tenant.clone(), landlord.clone()),
+            amount,
+        );
     }
 
     /// Landlord inputs an XLM amount for damages. State becomes PendingApproval.
@@ -67,6 +80,11 @@ impl SafeDepositContract {
 
         env.storage().instance().set(&DataKey::DeductionAmount, &deduction_amount);
         env.storage().instance().set(&DataKey::State, &State::PendingApproval);
+
+        env.events().publish(
+            (soroban_sdk::Symbol::new(&env, "DeductionProposed"), landlord.clone()),
+            deduction_amount,
+        );
     }
 
     /// Tenant approves the deduction. Funds are theoretically released. State becomes Released.
@@ -88,6 +106,11 @@ impl SafeDepositContract {
         // The tenant gets `deposit_amount - deduction_amount`.
 
         env.storage().instance().set(&DataKey::State, &State::Released);
+
+        env.events().publish(
+            (soroban_sdk::Symbol::new(&env, "DepositReleased"), tenant.clone()),
+            (),
+        );
     }
     
     // Read-only functions useful for UI
