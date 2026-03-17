@@ -6,7 +6,7 @@ edition = "2021"
 [lib]
 # Use rlib for `cargo test` on Windows (cdylib causes linker overflow).
 # For WASM deployment builds, use: cargo build --target wasm32-unknown-unknown --release
-crate-type = ["rlib"]
+crate-type = ["rlib", "cdylib"]
 
 [features]
 testutils = ["soroban-sdk/testutils"]

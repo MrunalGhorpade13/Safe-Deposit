@@ -8,7 +8,7 @@ on:
 
 jobs:
   test-contracts:
-    name: Build, Test & Deploy Soroban Contracts
+    name: Build & Test Soroban Contracts
     runs-on: ubuntu-latest
     
     steps:
@@ -22,30 +22,25 @@ jobs:
 
       - name: Run Cargo Test
         working-directory: ./safe_deposit
-        run: cargo test
+        run: cargo test --features testutils
 
       - name: Build WASM Contract
         working-directory: ./safe_deposit
         run: cargo build --target wasm32-unknown-unknown --release
 
-      - name: Setup Stellar CLI
-        uses: stellar/actions/setup-cli@main
-        with:
-          version: latest
-
-      - name: Deploy Contract to Testnet
+      - name: Install Stellar CLI & Deploy to Testnet
         working-directory: ./safe_deposit
         run: |
-          stellar keys generate deployer --network testnet --fund
+          curl -sSL https://github.com/stellar/stellar-cli/releases/download/v22.7.0/stellar-cli-22.7.0-x86_64-unknown-linux-gnu.tar.gz | tar xz
+          ./stellar keys generate deployer --network testnet --fund
           echo "================================================="
           echo "DEPLOYING SAFEDEPOSIT CONTRACT TO TESTNET..."
-          CONTRACT_ID=$(stellar contract deploy --wasm target/wasm32-unknown-unknown/release/safe_deposit.wasm -s deployer --network testnet)
+          CONTRACT_ID=$(./stellar contract deploy --wasm target/wasm32-unknown-unknown/release/safe_deposit.wasm -s deployer --network testnet)
           echo "================================================="
-          echo "🎉 SUCCESS! CONGRATULATIONS ON COMPLETING LEVEL 4"
-          echo "YOUR NEW CONTRACT ID IS:"
+          echo "🎉 LEVEL 4 - YOUR NEW CONTRACT ID IS:"
           echo "$CONTRACT_ID"
           echo "================================================="
-          echo "Copy the Contract ID above into your frontend/.env"
+        continue-on-error: true
 
   build-frontend:
     name: Build Next.js Frontend
@@ -65,6 +60,11 @@ jobs:
       - name: Install Dependencies
         working-directory: ./frontend
         run: npm ci
+
+      - name: Lint Check
+        working-directory: ./frontend
+        run: npm run lint
+        continue-on-error: true
 
       - name: Build Next.js project
         working-directory: ./frontend
