@@ -2,21 +2,28 @@
 
 **SafeDeposit** is a decentralized smart lease escrow application built on the Stellar network using Soroban Smart Contracts. It aims to streamline and secure the process of managing rent security deposits between Tenants and Landlords without the need for traditional banking intermediaries.
 
-This project was built as part of the **Rise In Stellar Journey to Mastery - Level 3**.
+[![CI Pipeline](https://github.com/MrunalGhorpade13/Safe-Deposit/actions/workflows/main.yml/badge.svg)](https://github.com/MrunalGhorpade13/Safe-Deposit/actions/workflows/main.yml)
+
+This project was built as part of the **Rise In Stellar Journey to Mastery - Level 4**.
 
 ---
 
 ## 🔗 Project Links
 
-* **Live Demo Link:** [https://frontend-o68avbd2t-mrunalghorpade13s-projects.vercel.app](https://frontend-o68avbd2t-mrunalghorpade13s-projects.vercel.app)
+* **Live Demo Link:** [Insert Vercel/Netlify Link Here]
 * **Full Process Demo Video:** [Google Drive Link](https://drive.google.com/file/d/1JbJvYUtTJDJz5UIifuqXdTqxS8j_JLNJ/view?usp=sharing)
+
+### 🖥️ Mobile Responsive View
+![Mobile Responsive View](./screenshots/mobile_responsive.png)
 
 ### 🖥️ Frontend Preview
 ![SafeDeposit Dashboard](./screenshots/dashboard_connected.png)
 
-### ✅ Deployed Smart Contract
+### ✅ Deployed Smart Contracts
 * **Network:** Stellar Testnet
-* **Contract ID:** `CAZTP6HMOFZJBJC26DQRDCSMM43ZQ325YKVHCKW4PPR744C4WKJZ2D7L`
+* **Main Contract ID:** `CAZTP... (Update after new deployment)`
+* **FeeCollector Contract ID:** `CDXAB... (Update after new deployment)`
+* **Inter-contract Call Tx Hash:** `fd9a... (Update after new deployment)`
 * **Deployer Address:** `GBZVEKLWICAUDTSOIMXZRA7XAMBXA4NMX3REYJIMQPY6762O`
 
 ### ✅ Test Verification — 4 Tests Passed
@@ -34,12 +41,20 @@ When the lease period is over:
 
 The entire process is transparent, permissionless, and immutable.
 
+### ⭐ Level 4 Features
+- **Inter-contract Calls:** Integrates a `FeeCollector` contract inside the main `SafeDeposit` logic to route protocol fees automatically.
+- **Real-time Event Streaming:** The Next.js frontend listens to Soroban events (`DepositLocked`, `DeductionProposed`, `DepositReleased`) to update the UI instantly without hard page refreshes.
+- **Mobile Responsiveness:** Tailwind CSS layouts are optimized for all screen sizes.
+- **Production-Ready UX:** Built with React Error Boundaries to catch RPC failures gracefully.
+- **CI/CD Pipeline:** GitHub Actions automatically compile and test the Rust contracts and TypeScript frontend on every push.
+
 ## 💻 Tech Stack
 * **Smart Contracts:** Rust, Soroban SDK
 * **Frontend Framework:** Next.js (App Router), React
 * **Styling:** Tailwind CSS, Lucide Icons
 * **Web3 Integration:** `@stellar/freighter-api`, `@stellar/stellar-sdk`
 * **State & Caching:** `@tanstack/react-query`
+* **DevOps:** GitHub Actions
 
 ## 🚀 Local Setup Instructions
 
@@ -115,7 +130,7 @@ The Tenant logs back in and sees the proposed deduction.
 ## ✍️ Author
 
 **Developed by Mrunal Ghorpade**
-*Rise In Stellar Journey to Mastery - Level 3 Submission*
+*Rise In Stellar Journey to Mastery - Level 4 Submission*
 
 ---
 
