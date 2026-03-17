@@ -11,13 +11,13 @@ This project was built as part of the **Rise In Stellar Journey to Mastery - Lev
 ## 🔗 Project Links
 
 * **Live Demo Link:** [Insert Vercel/Netlify Link Here]
-* **Full Process Demo Video:** [Google Drive Link](https://drive.google.com/file/d/1JbJvYUtTJDJz5UIifuqXdTqxS8j_JLNJ/view?usp=sharing)
+* **Full Process Demo Video:** [Decentralized Escrow Demo](./demo/safedeposit_demo.webp)
 
 ### 🖥️ Mobile Responsive View
 ![Mobile Responsive View](./screenshots/mobile_responsive.png)
 
 ### 🖥️ Frontend Preview
-![SafeDeposit Dashboard](./screenshots/dashboard_connected.png)
+![SafeDeposit Dashboard](./screenshots/dashboard_desktop.png)
 
 ### ✅ Deployed Smart Contracts
 * **Network:** Stellar Testnet
