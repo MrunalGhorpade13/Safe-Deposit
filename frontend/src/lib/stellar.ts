@@ -71,8 +71,8 @@ export async function fetchContractData(callerAddress: string): Promise<Contract
 
         const [tenant, landlord, deposit, deduction, state] = details;
         return {
-            tenant: tenant?.toString() ?? "",
-            landlord: landlord?.toString() ?? "",
+            tenant: tenant ? tenant.toString() : "",
+            landlord: landlord ? landlord.toString() : "",
             depositAmount: Number(deposit ?? 0) / 10_000_000, // Convert from stroops
             deductionAmount: Number(deduction ?? 0) / 10_000_000,
             state: Number(state ?? 2) as ContractState,

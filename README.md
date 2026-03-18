@@ -85,7 +85,14 @@ The GitHub Actions pipeline runs `cargo test` on every push to ensure contract i
 
 ### 🎥 5. Level 4 Demo Video — Full Escrow Flow
 Watch the complete flow: wallet connection → locking a deposit → proposing a deduction → automated release.
-<video src="./demo/safedeposit_demo.mp4" controls width="100%"></video>
+
+[![SafeDeposit Demo Thumbnail](./screenshots/dashboard_desktop.png)](https://github.com/MrunalGhorpade13/Safe-Deposit/blob/main/demo/safedeposit_demo.mp4?raw=true)
+*Click the dashboard preview above to play the full 70MB demo video directly from the repository.*
+
+<details>
+<summary><b>▶️ Click here to expand the Video Player (Browser support may vary)</b></summary>
+<video src="https://github.com/MrunalGhorpade13/Safe-Deposit/blob/main/demo/safedeposit_demo.mp4?raw=true" controls width="100%"></video>
+</details>
 
 ---
 

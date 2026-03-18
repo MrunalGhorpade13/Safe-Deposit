@@ -1,5 +1,5 @@
 #![no_std]
-use soroban_sdk::{contract, contractimpl, contracttype, Address, Env};
+use soroban_sdk::{contract, contractimpl, contracttype, token, Address, Env};
 
 mod fee_collector;
 use fee_collector::{FeeCollectorContractClient};
@@ -19,6 +19,7 @@ pub enum DataKey {
     DepositAmount,
     DeductionAmount,
     State,
+    Token,
 }
 
 #[contract]
@@ -43,14 +44,20 @@ impl SafeDepositContract {
         // For simplicity in this demo, we assume the transfer happens
         // or we just track the balances. We'll just track the state.
 
-        // Call FeeCollector inter-contract call
+        // Inter-contract call to FeeCollector
         let fee_client = FeeCollectorContractClient::new(&env, &fee_collector);
-        let fee_amount: i128 = 10000000; // 1 XLM flat fee
+        let fee_amount: i128 = 10_000_000; // 1 XLM flat fee
         fee_client.collect_fee(&token, &tenant, &fee_amount);
+
+        // Actual token transfer from Tenant to this Contract
+        let token_client = token::Client::new(&env, &token);
+        let contract_address = env.current_contract_address();
+        token_client.transfer(&tenant, &contract_address, &amount);
 
         env.storage().instance().set(&DataKey::Tenant, &tenant);
         env.storage().instance().set(&DataKey::Landlord, &landlord);
         env.storage().instance().set(&DataKey::DepositAmount, &amount);
+        env.storage().instance().set(&DataKey::Token, &token);
         env.storage().instance().set(&DataKey::State, &State::Locked);
 
         env.events().publish(
@@ -101,9 +108,22 @@ impl SafeDepositContract {
             panic!("Only the tenant can approve");
         }
 
-        // Logic here to actually transfer funds using the token contract.
-        // The landlord gets `deduction_amount`.
-        // The tenant gets `deposit_amount - deduction_amount`.
+        let deposit_amount: i128 = env.storage().instance().get(&DataKey::DepositAmount).expect("Deposit missing");
+        let deduction_amount: i128 = env.storage().instance().get(&DataKey::DeductionAmount).unwrap_or(0);
+        let landlord: Address = env.storage().instance().get(&DataKey::Landlord).expect("Landlord missing");
+        let token: Address = env.storage().instance().get(&DataKey::Token).expect("Token missing");
+
+        let token_client = token::Client::new(&env, &token);
+        let contract_address = env.current_contract_address();
+
+        if deduction_amount > 0 {
+            token_client.transfer(&contract_address, &landlord, &deduction_amount);
+        }
+
+        let remaining = deposit_amount - deduction_amount;
+        if remaining > 0 {
+            token_client.transfer(&contract_address, &tenant, &remaining);
+        }
 
         env.storage().instance().set(&DataKey::State, &State::Released);
 
@@ -119,12 +139,12 @@ impl SafeDepositContract {
         env.storage().instance().get(&DataKey::State).unwrap_or(State::Released)
     }
     
-    pub fn get_details(env: Env) -> (Address, Address, i128, i128, State) {
-        let tenant: Address = env.storage().instance().get(&DataKey::Tenant).expect("Missing");
-        let landlord: Address = env.storage().instance().get(&DataKey::Landlord).expect("Missing");
+    pub fn get_details(env: Env) -> (Option<Address>, Option<Address>, i128, i128, State) {
+        let tenant: Option<Address> = env.storage().instance().get(&DataKey::Tenant);
+        let landlord: Option<Address> = env.storage().instance().get(&DataKey::Landlord);
         let deposit: i128 = env.storage().instance().get(&DataKey::DepositAmount).unwrap_or(0);
         let deduction: i128 = env.storage().instance().get(&DataKey::DeductionAmount).unwrap_or(0);
-        let state: State = env.storage().instance().get(&DataKey::State).expect("Missing");
+        let state: State = env.storage().instance().get(&DataKey::State).unwrap_or(State::Released);
         
         (tenant, landlord, deposit, deduction, state)
     }

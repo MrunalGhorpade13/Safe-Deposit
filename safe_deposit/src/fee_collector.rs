@@ -1,12 +1,11 @@
-#![no_std]
-use soroban_sdk::{contract, contractimpl, Address, Env};
+use soroban_sdk::{contract, contractimpl, token, Address, Env};
 
 #[contract]
 pub struct FeeCollectorContract;
 
 #[contractimpl]
 impl FeeCollectorContract {
-    /// Collects a flat fee.
+    /// Collects a flat fee from the account and sends it to a treasury address.
     pub fn collect_fee(env: Env, token: Address, from: Address, amount: i128) {
         from.require_auth();
 
@@ -14,7 +13,9 @@ impl FeeCollectorContract {
             panic!("Fee amount must be positive");
         }
 
-        // The logic for actual token transfer would go here
-        // e.g., token::Client::new(&env, &token).transfer(&from, &treasury, &amount);
+        // For this demo, we'll transfer the fee to the contract's own address (acting as treasury)
+        let token_client = token::Client::new(&env, &token);
+        let treasury = env.current_contract_address();
+        token_client.transfer(&from, &treasury, &amount);
     }
 }
