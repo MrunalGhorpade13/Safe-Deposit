@@ -12,7 +12,7 @@
 | Feature | Link |
 | :--- | :--- |
 | **Live Demo** | [https://frontend-sigma-three-gf8m1lpe3b.vercel.app](https://frontend-sigma-three-gf8m1lpe3b.vercel.app) |
-| **Demo Video (Level 4)** | [Watch Full Process Demo](./demo/safedeposit_demo.webp) |
+| **Demo Video (Level 4)** | [Watch Full Process Demo](./demo/safedeposit_demo.mp4) |
 | **Source Code** | [GitHub Repository](https://github.com/MrunalGhorpade13/Safe-Deposit) |
 
 ---
@@ -85,7 +85,7 @@ The GitHub Actions pipeline runs `cargo test` on every push to ensure contract i
 
 ### 🎥 5. Level 4 Demo Video — Full Escrow Flow
 Watch the complete flow: wallet connection → locking a deposit → proposing a deduction → automated release.
-![SafeDeposit Demo](./demo/safedeposit_demo.webp)
+<video src="./demo/safedeposit_demo.mp4" controls width="100%"></video>
 
 ---
 
