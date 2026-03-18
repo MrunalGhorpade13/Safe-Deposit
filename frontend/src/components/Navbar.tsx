@@ -1,7 +1,7 @@
 "use client";
 
 import { useWallet } from "@/context/WalletContext";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Wallet, LogOut } from "lucide-react";
 
 export function Navbar() {
     const { address, isConnected, connect, disconnect } = useWallet();
@@ -15,28 +15,42 @@ export function Navbar() {
     };
 
     const displayAddress = address
-        ? `${address.slice(0, 5)}...${address.slice(-4)}`
+        ? `${address.slice(0, 6)}...${address.slice(-4)}`
         : "";
 
     return (
-        <nav className="bg-white border-b border-slate-200">
-            <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+        <nav className="glass-navbar sticky top-0 z-50">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16 items-center">
-                    <div className="flex items-center shrink-0">
-                        <ShieldCheck className="h-8 w-8 text-emerald-500" />
-                        <span className="ml-1 sm:ml-2 text-lg sm:text-xl font-bold text-slate-900 truncate">
-                            SafeDeposit
-                        </span>
+                    {/* Logo */}
+                    <div className="flex items-center gap-2.5">
+                        <div className="relative">
+                            <ShieldCheck className="h-8 w-8" style={{ color: '#6366f1' }} />
+                            <div className="absolute inset-0 blur-md opacity-50" style={{ background: '#6366f1', borderRadius: '50%' }} />
+                        </div>
+                        <div>
+                            <span className="text-xl font-bold gradient-text">SafeDeposit</span>
+                            <span className="hidden sm:block text-xs" style={{ color: '#475569', lineHeight: 1, marginTop: '-2px' }}>Smart Lease Escrow</span>
+                        </div>
                     </div>
-                    <div className="flex items-center">
+
+                    {/* Right side */}
+                    <div className="flex items-center gap-3">
+                        {isConnected && (
+                            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg" style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.25)' }}>
+                                <span className="pulse-dot" />
+                                <span className="text-xs font-mono" style={{ color: '#34d399' }}>{displayAddress}</span>
+                            </div>
+                        )}
                         <button
+                            id="wallet-btn"
                             onClick={handleWalletAction}
-                            className={`inline-flex items-center px-3 sm:px-4 py-2 border rounded-md shadow-sm text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors ${isConnected
-                                    ? "border-slate-300 text-slate-700 bg-white hover:bg-slate-50 focus:ring-slate-500"
-                                    : "border-transparent text-white bg-emerald-500 hover:bg-emerald-600 focus:ring-emerald-500"
-                                }`}
+                            className={isConnected ? "btn-secondary" : "btn-primary"}
                         >
-                            {isConnected ? displayAddress : "Connect Wallet"}
+                            {isConnected
+                                ? (<><LogOut className="h-4 w-4 mr-1.5" /><span className="hidden sm:inline">Disconnect</span><span className="sm:hidden">{displayAddress}</span></>)
+                                : (<><Wallet className="h-4 w-4 mr-1.5" />Connect Wallet</>)
+                            }
                         </button>
                     </div>
                 </div>
