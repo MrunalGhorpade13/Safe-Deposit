@@ -1,5 +1,8 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## 🎥 Project Demo
+Watch the complete Level 4 process demo: [SafeDeposit Demo Video](../demo/safedeposit_demo.mp4)
+
 ## Getting Started
 
 First, run the development server:
