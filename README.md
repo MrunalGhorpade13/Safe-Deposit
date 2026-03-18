@@ -10,8 +10,10 @@ This project was built as part of the **Rise In Stellar Journey to Mastery - Lev
 
 ## 🔗 Project Links
 
-* **Live Demo Link:** [Insert Vercel/Netlify Link Here]
+* **Live Demo Link:** [Deploy to Vercel](https://vercel.com/new/clone?repository-url=https://github.com/MrunalGhorpade13/Safe-Deposit&project-root-directory=frontend)
 * **Full Process Demo Video:** [Decentralized Escrow Demo](./demo/safedeposit_demo.webp)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/MrunalGhorpade13/Safe-Deposit&project-root-directory=frontend)
 
 ### 🖥️ Mobile Responsive View
 ![Mobile Responsive View](./screenshots/mobile_responsive.png)
