@@ -7,74 +7,97 @@
 
 ---
 
+## 🔗 Project Resources
+
+| Feature | Link |
+| :--- | :--- |
+| **Live Demo** | [https://frontend-sigma-three-gf8m1lpe3b.vercel.app](https://frontend-sigma-three-gf8m1lpe3b.vercel.app) |
+| **Demo Video (Level 4)** | [Watch Full Process Demo](./demo/safedeposit_demo.webp) |
+| **Source Code** | [GitHub Repository](https://github.com/MrunalGhorpade13/Safe-Deposit) |
+
+---
+
 ## 🌟 Level 3: Core Project Development
 
-In Level 3, the foundational escrow protocol was built to allow trustless management of security deposits.
+In Level 3, the foundational escrow protocol was built to allow trustless management of security deposits between Tenants and Landlords on the Stellar Testnet.
 
 ### 🎯 Core Features & Escrow Flow
-1. **Tenant: Secure Locking**
-   Tenants can lock XLM into the escrow contract by specifying the landlord's address. The funds are held securely until the lease ends.
-2. **Landlord: Proposed Deductions**
-   At the end of the lease, landlords can propose a deduction for damages. The state updates in real-time for the tenant to see.
-3. **Mutual Release**
-   Once the tenant reviews and approves the deduction, the contract automatically splits the funds: sending the deduction to the landlord and the remainder back to the tenant.
+1. **Tenant: Secure Locking** — Tenants lock XLM into the escrow contract by specifying the landlord's address. Funds are held securely until the lease ends.
+2. **Landlord: Proposed Deductions** — At the end of the lease, landlords can propose a deduction for damages.
+3. **Mutual Release** — Once the tenant approves, the contract automatically splits funds: deduction to the landlord, remainder back to the tenant.
 
 ### 💻 Tech Stack (Level 3 Foundation)
 * **Smart Contracts:** Rust, Soroban SDK
-* **Frontend Framework:** Next.js (App Router), React
+* **Frontend:** Next.js (App Router), React
 * **Styling:** Tailwind CSS, Lucide Icons
-* **Web3 Integration:** `@stellar/freighter-api`, `@stellar/stellar-sdk`
+* **Web3:** `@stellar/freighter-api`, `@stellar/stellar-sdk`
 * **State & Caching:** `@tanstack/react-query`
 
-### 📖 User Guide & How to Use
-1. **Connecting Your Wallet:** Click **"Connect Wallet"** to link your Freighter extension.
-2. **Tenant - Locking a Deposit:** Enter the Landlord's Stellar address and deposit amount. Click **"Lock New Deposit"**. Status goes to **Locked**.
-3. **Landlord - Proposing a Deduction:** The Landlord logs in, enters a deduction for damages, and clicks **"Propose Deduction"**. Status goes to **Pending Approval**.
-4. **Tenant - Approving Release:** The Tenant reviews the deduction and clicks **"Approve & Release"**. The contract executes and shifts to the **Released** state.
-
 ### 📜 Smart Contract Logic (`safe_deposit/src/lib.rs`)
-* `lock_deposit`: Locks the XLM from the tenant and initiates the `Locked` state.
-* `propose_deduction`: Allows the authorized landlord to propose damage costs. Moves to `PendingApproval`.
-* `approve_and_release`: Tenant approves. Contract completes the deal. Moves state to `Released`.
+* `lock_deposit` — Locks XLM from the tenant. Initiates `Locked` state.
+* `propose_deduction` — Landlord proposes damage costs. Moves to `PendingApproval`.
+* `approve_and_release` — Tenant approves. Contract splits funds. Moves to `Released`.
 
 ---
 
 ## 🚀 Level 4: Production-Readiness Advancements
 
-Building upon the Level 3 foundation, the project was upgraded to meet **Level 4 Production-Readiness** requirements, introducing protocol fees, real-time UI/UX, and automated CI/CD.
+Building upon Level 3, the project was upgraded to meet all **Level 4 Production-Readiness** requirements.
 
-### 🔗 Project Resources
-| Feature | Link |
+### ✅ Level 4 Submission Checklist
+- [x] **Inter-contract Call** — Integrated `FeeCollector` contract for automated protocol fee routing on every deposit lock.
+- [x] **Real-time Event Streaming** — Frontend polls Soroban events (`DepositLocked`, `DeductionProposed`, `DepositReleased`) for instant UI updates.
+- [x] **Mobile Responsive** — Fully responsive dark-mode UI verified on mobile viewports.
+- [x] **CI/CD Pipeline** — GitHub Actions workflow runs Rust tests and Next.js build on every push.
+- [x] **Live Deployment** — Hosted on Vercel with automated deployment from the `main` branch.
+- [x] **8+ Meaningful Commits** — See full commit history below.
+- [x] **Premium UI/UX** — Glassmorphism design with animated backgrounds, real-time state transitions.
+- [x] **Error Handling** — React Error Boundaries and dynamic toast feedback for RPC/Wallet failures.
+
+---
+
+## 🔗 Contract Addresses & Transaction Hashes
+
+| Contract | Address / ID |
 | :--- | :--- |
-| **Live Demo Link** | [https://frontend-sigma-three-gf8m1lpe3b.vercel.app](https://frontend-sigma-three-gf8m1lpe3b.vercel.app) |
-| **Demo Video** | [Watch Full Process Demo](./demo/safedeposit_demo.webp) |
-| **Source Code** | [GitHub Repository](https://github.com/MrunalGhorpade13/Safe-Deposit) |
+| **SafeDeposit (Core Escrow)** | `CCLC7I4IBTPBP2EIRXSOVV4HPFNHH5CRWZF6Y7MC5RWFH2RDA4LMPK3` |
+| **FeeCollector (Inter-contract)** | `CC4IQFJQVTZG77KDCOKWXU7MU3RQOIOA6GBLQDKW5YL3P3Q5E62SQAS` |
+| **Network** | Stellar Testnet |
 
-### 🏆 Level 4 Submission Highlights
-- [x] **Inter-contract Logic**: Integrated `FeeCollector` contract for automated protocol fee routing.
-- [x] **Real-time Event Streaming**: Frontend listens to Soroban events (`DepositLocked`, `DeductionProposed`, etc.) for instant UI updates.
-- [x] **Premium UI/UX**: Implemented a sleek, dark-mode design with Glassmorphism and responsive Tailwind layouts.
-- [x] **Error Handling**: Added React Error Boundaries and dynamic user feedback for RPC/Wallet failures.
-- [x] **CI/CD Pipeline**: Fully automated build, test, and optimization workflow via GitHub Actions.
-- [x] **Live Deployment**: Hosted on Vercel with automated deployment from GitHub.
+---
 
-### 🛠️ Technical Architecture Upgrades
-| Component | Technology | Description |
-| :--- | :--- | :--- |
-| **Smart Contracts** | Rust / Soroban | Core escrow logic and **cross-contract fee collection**. |
-| **Frontend** | Next.js 16 / React | Responsive dashboard with **real-time state management**. |
-| **Styling** | Tailwind CSS | **Premium dark-mode aesthetic** with custom animations. |
-| **Infrastructure** | GitHub Actions / Vercel | Automated CI/CD for contract optimization and UI deployment. |
+## 📸 Visual Proof
 
-### 📸 Visual Proof (Level 4 Features)
-
-#### 🖥️ 1. Live Wallet Connection
+### 🖥️ 1. Live Wallet Connection
 The application seamlessly integrates with the **Freighter Wallet** to manage Stellar accounts.
 ![Wallet Connection](./screenshots/wallet_connection.png)
 
-#### 🎥 2. Full Process Demo & Real-Time Events
-Watch the complete flow: locking a deposit, proposing a deduction, and the final automated release with event tracking.
+### 📱 2. Mobile Responsive View
+The dashboard is fully responsive and works seamlessly on all screen sizes.
+![Mobile Responsive View](./screenshots/mobile_responsive.png)
+
+### 🖥️ 3. Full Desktop Dashboard
+![Desktop Dashboard](./screenshots/dashboard_desktop.png)
+
+### ✅ 4. CI/CD Pipeline — Rust Tests Passing
+The GitHub Actions pipeline runs `cargo test` on every push to ensure contract integrity.
+![Cargo Test Passed](./screenshots/cargo_test_passed.png)
+
+### 🎥 5. Level 4 Demo Video — Full Escrow Flow
+Watch the complete flow: wallet connection → locking a deposit → proposing a deduction → automated release.
 ![SafeDeposit Demo](./demo/safedeposit_demo.webp)
+
+---
+
+## 🛠️ Technical Architecture
+
+| Component | Technology | Description |
+| :--- | :--- | :--- |
+| **Smart Contracts** | Rust / Soroban | Core escrow logic + cross-contract fee collection |
+| **Frontend** | Next.js 16 / React | Responsive dashboard with real-time state management |
+| **Styling** | Tailwind CSS | Premium dark-mode aesthetic with custom animations |
+| **Web3 Integration** | Freighter / Stellar SDK | Seamless wallet connection and transaction signing |
+| **Infrastructure** | GitHub Actions / Vercel | Automated CI/CD for contract testing and UI deployment |
 
 ---
 
@@ -94,10 +117,12 @@ npm install
 npm run dev
 ```
 
+Open `http://localhost:3000` in your browser with the Freighter Wallet extension installed and set to **Testnet**.
+
 ---
 
 ## ✍️ Author
 **Developed by Mrunal Ghorpade**  
-*Rise In Stellar Journey to Mastery - Level 3 & Level 4*
+*Rise In Stellar Journey to Mastery — Level 3 & Level 4*
 
 🚀 *Building the future of finance on Stellar.*
